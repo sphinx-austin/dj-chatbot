@@ -56,4 +56,8 @@ def register(request):
     return render(request, 'register.html')
 
 
-#
+# logout
+
+def logout(request):
+    auth.logout(request)
+    return redirect('login')
