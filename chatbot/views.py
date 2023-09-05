@@ -15,7 +15,10 @@ def home(request):
 
 
 # AUTHENTICATION
+
 # login
+
+
 def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -30,3 +33,27 @@ def login(request):
             return render(request, 'login.html', {'error_messahe': error_message})
     else:
         return render(request, 'login.html')
+
+# regitration
+
+
+def register(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        if password1 == password2:
+            try:
+                user = User.objects.create_user(username, email, password1)
+                user.save()
+                auth.login(request, user)
+                return redirect('chatbot')
+            except:
+                error_message = 'Error creating account'
+                return render(request, 'register.html', {'error_message': error_message})
+    return render(request, 'register.html')
+
+
+#
